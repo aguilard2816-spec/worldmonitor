@@ -61,10 +61,15 @@ export default function middleware(request: Request) {
 
   // Social bot OG response for variant subdomain root pages
   if (path === '/' && SOCIAL_PREVIEW_UA.test(ua)) {
-    const variant = VARIANT_HOST_MAP[host];
-    if (variant && isAllowedHost(host)) {
-      const og = VARIANT_OG[variant];
-      const html = `<!DOCTYPE html><html><head>
+   const variant = VARIANT_HOST_MAP[host];
+if (variant && isAllowedHost(host)) {
+  const og = VARIANT_OG[variant];
+
+  if (!og) {
+    return;
+  }
+
+  const html = `<!DOCTYPE html><html><head>
 <meta property="og:type" content="website"/>
 <meta property="og:title" content="${og.title}"/>
 <meta property="og:description" content="${og.description}"/>
